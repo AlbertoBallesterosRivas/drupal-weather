@@ -1,0 +1,90 @@
+<?php
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function weather_api_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.weather_api':
+      return '<p>' . t('The Weather API module provides weather information with a modern responsive interface.') . '</p>';
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for weather_display.
+ */
+function weather_api_preprocess_weather_display(&$variables) {
+  $weather_data = $variables['weather_data'];
+  $config = $variables['config'];
+  
+  if (empty($weather_data)) {
+    return;
+  }
+  
+  // Add formatted temperature with unit
+  $unit_symbol = match($config['units'] ?? 'metric') {
+    'imperial' => '°F',
+    'kelvin' => 'K',
+    default => '°C',
+  };
+  
+  $variables['temperature_formatted'] = round($weather_data['temperature']) . $unit_symbol;
+  $variables['feels_like_formatted'] = round($weather_data['feels_like']) . $unit_symbol;
+  
+  // Format wind speed
+  $wind_unit = ($config['units'] === 'imperial') ? 'mph' : 'm/s';
+  $variables['wind_speed_formatted'] = round($weather_data['wind_speed'], 1) . ' ' . $wind_unit;
+  
+  // Format date
+  $variables['weather_time'] = date('Y-m-d H:i', $weather_data['date']);
+  $variables['weather_time_formatted'] = \Drupal::service('date.formatter')->format($weather_data['date'], 'medium');
+  
+  // Add weather icon URL
+  if (!empty($weather_data['icon'])) {
+    $variables['weather_icon_url'] = "https://openweathermap.org/img/wn/{$weather_data['icon']}@2x.png";
+  }
+  
+  // Add CSS classes based on condition
+  $variables['weather_classes'] = [
+    'weather-display',
+    'weather-condition-' . strtolower(str_replace(' ', '-', $weather_data['condition'])),
+  ];
+  
+  // Add time-based classes
+  $hour = (int) date('H', $weather_data['date']);
+  $variables['weather_classes'][] = ($hour >= 6 && $hour < 18) ? 'weather-day' : 'weather-night';
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function weather_api_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  if ($form_id === 'weather_search_form') {
+    \Drupal::logger('weather_api')->notice('Form alter ejecutado para weather_search_form');
+    
+    // Asegurar que no haya JavaScript interfiriendo
+    $form['#attributes']['onsubmit'] = 'console.log("Form submitted via HTML"); return true;';
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function weather_api_theme($existing, $type, $theme, $path) {
+  return [
+    'weather_display' => [
+      'variables' => [
+        'weather_data' => NULL,
+        'config' => [],
+        'chart_data' => [],
+      ],
+    ],
+    'weather_metrics' => [
+      'variables' => [
+        'metrics' => [],
+      ],
+    ],
+  ];
+}

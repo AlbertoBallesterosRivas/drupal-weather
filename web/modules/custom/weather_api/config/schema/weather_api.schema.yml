@@ -1,0 +1,13 @@
+weather_api.settings:
+  type: config_object
+  label: 'Weather API Settings'
+  mapping:
+    api_key:
+      type: string
+      label: 'OpenWeatherMap API Key'
+    units:
+      type: string
+      label: 'Temperature Units'
+    language:
+      type: string
+      label: 'Weather Language'

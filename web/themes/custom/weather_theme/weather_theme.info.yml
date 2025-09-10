@@ -1,0 +1,16 @@
+type: theme
+name: 'Weather'
+description: 'Custom theme for Weather API module'
+core_version_requirement: ^11
+version: 1.0.0
+base theme: claro
+
+libraries:
+  - weather/global-styling
+  - weather/global-scripts
+
+regions:
+  header: Header
+  content: Content
+  sidebar_first: 'Left sidebar'
+  footer: Footer

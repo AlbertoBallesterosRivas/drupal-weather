@@ -1,0 +1,59 @@
+.layout-container {
+  &>header {
+    height: 4rem;
+    background-color: $color-secondary-dark;
+
+    &>div {
+      height: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      #block-weather-site-branding {
+        display: flex;
+        align-items: center;
+
+        img {
+          max-height: 2.5rem;
+        }
+        a {
+          font-size: 1.5rem;
+          font-weight: 900;
+          color: $white;
+          // display: block;
+          // height: 100%;
+          // padding: 1rem;
+
+          &:hover, &:focus {
+            text-decoration: none;
+          }
+        }
+      }
+
+      nav {
+        margin-left: auto;
+        
+        &>ul {
+          height: 100%;
+          display: flex;
+          align-items: center;
+
+          li {
+            a {
+              color: $color-text-secondary;
+              padding: 1rem;
+              display: block;
+
+              &.is-active {
+                background-color: $color-secondary;
+                color: $color-text-primary;
+              }
+            }
+            
+          }
+        }
+      }
+    }
+  }
+}

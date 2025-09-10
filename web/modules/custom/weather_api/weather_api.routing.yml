@@ -1,0 +1,33 @@
+weather_api.search:
+  path: '/weather'
+  defaults:
+    _form: '\Drupal\weather_api\Form\WeatherSearchForm'
+    _title: 'Search Weather'
+  requirements:
+    _access: 'TRUE'
+
+weather_api.settings:
+  path: '/admin/config/services/weather-api'
+  defaults:
+    _form: '\Drupal\weather_api\Form\WeatherSettingsForm'
+    _title: 'Weather API Settings'
+  requirements:
+    _permission: 'administer site configuration'
+
+weather_api.result:
+  path: '/weather/{city}'
+  defaults:
+    _controller: '\Drupal\weather_api\Controller\WeatherController::weatherPage'
+    _title: 'Weather Result'
+  requirements:
+    _access: 'TRUE'
+    # Permitir caracteres unicode, espacios, guiones, etc.
+    city: '.+'
+
+weather_api.ajax_search:
+  path: '/weather/ajax/search'
+  defaults:
+    _controller: '\Drupal\weather_api\Controller\WeatherController::ajaxSearch'
+  requirements:
+    _access: 'TRUE'
+  methods: [GET]

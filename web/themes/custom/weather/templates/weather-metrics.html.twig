@@ -1,0 +1,141 @@
+{#
+/**
+ * @file
+ * Include modular para métricas del clima.
+ *
+ * Variables:
+ * - metrics: Array con los datos de métricas
+ */
+#}
+
+{# Filtro personalizado para convertir dirección del viento #}
+{% set wind_directions = {
+  '0': 'N', '45': 'NE', '90': 'E', '135': 'SE',
+  '180': 'S', '225': 'SW', '270': 'W', '315': 'NW'
+} %}
+
+<div class="weather-metrics">
+  
+  {# Humedad - siempre presente #}
+  {% if metrics.humidity %}
+    <div class="metric metric--humidity">
+      <div class="metric__icon">🌡️</div>
+      <div class="metric__content">
+        <span class="metric__label">{{ 'Humedad'|t }}</span>
+        <span class="metric__value">{{ metrics.humidity }}%</span>
+      </div>
+    </div>
+  {% endif %}
+
+  {# Presión atmosférica #}
+  {% if metrics.pressure %}
+    <div class="metric metric--pressure">
+      <div class="metric__icon">📊</div>
+      <div class="metric__content">
+        <span class="metric__label">{{ 'Presión'|t }}</span>
+        <span class="metric__value">{{ metrics.pressure }} hPa</span>
+      </div>
+    </div>
+  {% endif %}
+
+  {# Viento con lógica condicional compleja #}
+  {% if metrics.wind_speed %}
+    {% set wind_dir_text = '' %}
+    {% if metrics.wind_direction %}
+      {# Convertir grados a dirección cardinal #}
+      {% set normalized_deg = ((metrics.wind_direction + 22.5) / 45)|round * 45 %}
+      {% set wind_dir_text = wind_directions[normalized_deg] ?? 'N' %}
+    {% endif %}
+    
+    <div class="metric metric--wind">
+      <div class="metric__icon">🌪️</div>
+      <div class="metric__content">
+        <span class="metric__label">{{ 'Viento'|t }}</span>
+        <span class="metric__value">
+          {{ metrics.wind_speed|round(1) }} m/s
+          {% if wind_dir_text %}
+            <small>({{ wind_dir_text }})</small>
+          {% endif %}
+        </span>
+      </div>
+    </div>
+  {% endif %}
+
+  {# Visibilidad con conversión de unidades #}
+  {% if metrics.visibility %}
+    {% set visibility_km = (metrics.visibility / 1000)|round(1) %}
+    <div class="metric metric--visibility">
+      <div class="metric__icon">👁️</div>
+      <div class="metric__content">
+        <span class="metric__label">{{ 'Visibilidad'|t }}</span>
+        <span class="metric__value">{{ visibility_km }} km</span>
+      </div>
+    </div>
+  {% endif %}
+
+</div>
+
+{# CSS para métricas con Flexbox #}
+<style>
+.weather-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-around;
+}
+
+.metric {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.75rem;
+  backdrop-filter: blur(10px);
+  flex: 1;
+  min-width: 120px;
+  transition: transform 0.2s ease;
+}
+
+.metric:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.metric__icon {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+.metric__content {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric__label {
+  font-size: 0.75rem;
+  opacity: 0.8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.metric__value {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.metric__value small {
+  font-size: 0.8em;
+  opacity: 0.7;
+}
+
+/* Responsive para métricas */
+@media (max-width: 480px) {
+  .weather-metrics {
+    flex-direction: column;
+  }
+  
+  .metric {
+    min-width: auto;
+  }
+}
+</style>

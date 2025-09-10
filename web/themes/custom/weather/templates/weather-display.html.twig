@@ -1,0 +1,118 @@
+{#
+/**
+ * @file
+ * Template moderno para mostrar datos del clima
+ *
+ * Available variables:
+ * - weather_data: Array con datos del clima
+ * - config: Configuración (units, language)
+ * - weather_icon_url: URL del icono del clima
+ * - temperature_formatted: Temperatura formateada con unidad
+ * - feels_like_formatted: Sensación térmica formateada
+ * - wind_speed_formatted: Velocidad del viento formateada
+ * - weather_time_formatted: Fecha formateada
+ * - weather_classes: Array de clases CSS
+ */
+#}
+
+<div{{ attributes.addClass(weather_classes, 'weather-widget-modern') }}>
+  {% if weather_data %}
+    
+    {# Header con sensación térmica y temperatura principal #}
+    <div class="weather-header">
+    <h2 class="weather-location">
+      {{ weather_data.city }}{% if weather_data.country %}, {{ weather_data.country }}{% endif %}
+    </h2>
+    {% if weather_icon_url %}
+        <img src="{{ weather_icon_url }}" alt="{{ weather_data.condition }}" class="weather-icon" />
+      {% endif %}
+      <div class="feels-like-section">
+        <div class="main-temperature">
+          {{ temperature_formatted|replace({'°': '°'}) }}
+        </div>
+      </div>
+    </div>
+
+    {# Grid de métricas principales #}
+    <div class="weather-metrics-grid">
+      
+      {# Fila 1 #}
+      <div class="metric-item">
+        <div class="metric-icon">🌡️</div>
+        <div class="metric-content">
+          <span class="metric-label">{{ 'Máx./Mín.'|t }}</span>
+          <span class="metric-value">
+            {{ weather_data.temp_max|default('83') }}°/{{ weather_data.temp_min|default('64') }}°
+          </span>
+        </div>
+      </div>
+
+      <div class="metric-item">
+        <div class="metric-icon">💨</div>
+        <div class="metric-content">
+          <span class="metric-label">{{ 'Viento'|t }}</span>
+          <span class="metric-value">{{ weather_data.wind_speed|default('8') }} mph</span>
+        </div>
+      </div>
+
+      {# Fila 2 #}
+      <div class="metric-item">
+        <div class="metric-icon">💧</div>
+        <div class="metric-content">
+          <span class="metric-label">{{ 'Humedad'|t }}</span>
+          <span class="metric-value">{{ weather_data.humidity|default('52') }}%</span>
+        </div>
+      </div>
+
+      <div class="metric-item">
+        <div class="metric-icon">🌡️</div>
+        <div class="metric-content">
+          <span class="metric-label">{{ 'Punto de rocío'|t }}</span>
+          <span class="metric-value">{{ weather_data.dew_point|default('56') }}°</span>
+        </div>
+      </div>
+
+      {# Fila 3 #}
+      <div class="metric-item">
+        <div class="metric-icon">📊</div>
+        <div class="metric-content">
+          <span class="metric-label">{{ 'Presión'|t }}</span>
+          <span class="metric-value">
+            <span class="trend-up">↗</span> {{ weather_data.pressure|default('29.90') }} in
+          </span>
+        </div>
+      </div>
+
+      <div class="metric-item">
+        <div class="metric-icon">☀️</div>
+        <div class="metric-content">
+          <span class="metric-label">{{ 'Índice UV'|t }}</span>
+          <span class="metric-value">{{ weather_data.uv_index|default('3') }} {{ 'de'|t }} 11</span>
+        </div>
+      </div>
+
+      {# Fila 4 #}
+      <div class="metric-item">
+        <div class="metric-icon">👁️</div>
+        <div class="metric-content">
+          <span class="metric-label">{{ 'Visibilidad'|t }}</span>
+          <span class="metric-value">{{ weather_data.visibility|default('7') }} mi</span>
+        </div>
+      </div>
+
+      <div class="metric-item">
+        <div class="metric-icon">🌙</div>
+        <div class="metric-content">
+          <span class="metric-label">{{ 'Fase lunar'|t }}</span>
+          <span class="metric-value">{{ weather_data.moon_phase|default('Gibosa menguante'|t) }}</span>
+        </div>
+      </div>
+
+    </div>
+
+  {% else %}
+    <div class="weather-error">
+      <p>{{ 'No se pudieron obtener los datos del clima.'|t }}</p>
+    </div>
+  {% endif %}
+</div>

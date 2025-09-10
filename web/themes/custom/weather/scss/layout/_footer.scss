@@ -1,0 +1,25 @@
+.layout-container {
+  &>footer {
+    height: 4rem;
+    background-color: $color-secondary-dark;
+
+    &>div {
+      height: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3rem;
+
+      svg {
+        color: $color-text-secondary;
+
+        &:hover,
+        &:focus {
+          color: $color-text-primary;
+        }
+      }
+    }
+  }
+}
