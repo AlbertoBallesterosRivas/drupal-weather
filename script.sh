@@ -38,6 +38,7 @@ ddev drush entity:delete block weather_secondary_local_tasks
 ddev drush entity:delete block weather_breadcrumbs
 ddev drush entity:delete block weather_help
 ddev drush entity:delete block weather_powered
+ddev drush entity:delete block weather_messages
 
 # Cambia el orden de los bloques en la región header
 ddev drush config:set block.weather_site_branding weight 0 -y
