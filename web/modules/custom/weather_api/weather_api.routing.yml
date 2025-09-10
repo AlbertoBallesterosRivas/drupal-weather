@@ -12,7 +12,7 @@ weather_api.settings:
     _form: '\Drupal\weather_api\Form\WeatherSettingsForm'
     _title: 'Weather API Settings'
   requirements:
-    _permission: 'administer site configuration'
+    _access: 'TRUE'
 
 weather_api.result:
   path: '/weather/{city}'
