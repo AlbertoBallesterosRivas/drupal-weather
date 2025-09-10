@@ -13,7 +13,9 @@
       #block-weather-site-branding {
         display: flex;
         align-items: center;
-
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+ 
         img {
           max-height: 2.5rem;
         }
@@ -32,6 +34,7 @@
       }
 
       nav {
+        grid-column: 2 / 3;
         margin-left: auto;
         
         &>ul {

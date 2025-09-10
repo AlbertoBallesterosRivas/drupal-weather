@@ -6,6 +6,16 @@
   background-position: center;
   background-repeat: no-repeat;
 
+  .weather-error {
+    max-width: 720px;
+    background-color: rgba(0, 0, 0, .7);
+    border-radius: 0.5em;
+    margin: 0 auto;
+    padding: 4rem;
+    color: red;
+    font-weight: bold;
+  }
+
   form {
     max-width: 720px;
     background-color: rgba(0, 0, 0, .7);
@@ -86,6 +96,32 @@
         &:hover, &:focus {
           background-color: $color-dark;
           color: $color-text-primary;
+        }
+      }
+    }
+
+    &.weather-api-settings-form {
+      display: flex;
+      flex-direction: column;
+      color: white;
+      gap: 1rem;
+      padding: 2rem 4rem;
+
+      .form-actions {
+        width: fit-content;
+        margin: 0 auto;
+
+        .form-submit {
+          background-color: $black;
+          color: white;
+          border: none;
+          padding: 1rem;
+          text-align: center;
+
+          &:hover, &:focus {
+            background-color: $color-dark;
+            color: $color-text-primary;
+          }
         }
       }
     }
