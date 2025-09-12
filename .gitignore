@@ -121,3 +121,36 @@ php.ini
 .env.local
 .env.production
 .env.staging
+
+# ddev
+.ddev/db_snapshots/
+.ddev/.dbimageBuild/
+.ddev/.webimageBuild/
+.ddev/.bgpsync/
+.ddev/.ddev-docker-*
+.ddev/import.yaml
+.ddev/docker-compose.*.yaml
+.ddev/db/
+.ddev/sequelpro.spf
+.ddev/import-db/
+.ddev/apache/
+.ddev/mysql/
+.ddev/postgres/
+.ddev/redis/
+.ddev/solr/
+.ddev/elasticsearch/
+.ddev/.bgsync*
+
+# Certificados y claves privadas
+.ddev/traefik/certs/
+.ddev/global_config/
+**/*.key
+**/*.pem
+**/*.crt
+
+# Logs
+.ddev/logs/
+
+# Archivos temporales
+.ddev/.webimageBuild
+.ddev/.dbimageBuild
